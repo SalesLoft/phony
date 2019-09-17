@@ -579,9 +579,13 @@ Mobile.
 
 #### Italy
 
-    Phony.assert.plausible?('+39 06 1234 45')
+    Phony.assert.plausible?('+39 06 2234 45')
+    Phony.assert.plausible?('+39 06 2234 456')
+    Phony.assert.plausible?('+39 06 2234 4567')
+
     Phony.assert.plausible?('+39 06 1234 456')
     Phony.assert.plausible?('+39 06 1234 4567')
+    Phony.assert.plausible?('+39 06 1234 45678')
 
     Phony.refute.plausible?('+39 035 00000')
     Phony.assert.plausible?('+39 035 000000')
