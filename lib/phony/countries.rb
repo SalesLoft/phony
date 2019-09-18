@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 # All countries, ordered by country code.
 #
 # Definitions are in the format:
@@ -67,7 +69,7 @@ Phony.define do
   country '20', one_of('800')    >> split(7..7) | # Egypt toll free
                 one_of('3')      >> split(7..7) | # Alexandria
                 one_of('2')      >> split(8..8) | # Cairo/Giza
-                one_of('10', '11', '12') >> split(8..8) | # the 3 mobile operators
+                one_of('10', '11', '12', '15') >> split(8..8) | # the 4 mobile operators
                 fixed(2)         >> split(7..7) # all the other 24 provinces
 
   # South Africa.
@@ -211,14 +213,7 @@ Phony.define do
           fixed(3)                           >> split(7)   # 3-digit NDCs
 
   # Argentine Republic.
-  #
-  country '54',
-          one_of('11', '911') >> split(4,4) | # Fixed & Mobile
-          match(/^(22[0137]|237|26[14]|29[179]|34[1235]|35[138]|38[1578])/) >> split(3,4) |        # Fixed
-          match(/^(922[0137]|9237|926[14]|929[179]|934[1235]|935[138]|938[1578])/) >> split(3,4) | # Mobile
-          match(/^(9\d{4})/) >> split(2,4) | # Mobile
-          match(/^([68]\d{2})/) >> split(3,4) | # Service
-          fixed(4) >> split(2,4) # Fixed
+  # country '54' # argentina, see special file.
 
   # Brazil (Federative Republic of).
   # http://en.wikipedia.org/wiki/Telephone_numbers_in_Brazil
@@ -264,7 +259,7 @@ Phony.define do
     match(/\A(2)\d{10}\z/) >> split(10) |
     one_of('2') >> split(7) |
     # mobile
-    match(/\A(9\d\d)\d{7}\z/) >> split(7) |
+    match(/\A([89]\d\d)\d{7}\z/) >> split(7) |
     match(/\A(9\d\d)\d+\z/) >> split(6) |
     #
     fixed(2) >> split(7)
@@ -1183,9 +1178,9 @@ Phony.define do
   # Israel (State of) (also works for numbers in Palestinian territories)
   country '972',
     trunk('0') |
-    one_of('1')                            >> split(3,3,3) | # special numbers
-    one_of('2', '3', '4', '8', '9')        >> split(3,4)   | # 1 digit ndc
-    match(/^(5[023456789]|7[23467])\d+$/)  >> split(3,4)     # 2 digit ndc
+    one_of('1')                                 >> split(3,3,3) | # special numbers
+    one_of('2', '3', '4', '8', '9')             >> split(3,4)   | # 1 digit ndc
+    match(/^(5[012345689]|7[234679])\d+$/)      >> split(3,4)     # 2 digit ndc
 
   country '973', none >> split(4,4..4) # Bahrain (Kingdom of) http://www.itu.int/oth/T0202000011/en
 

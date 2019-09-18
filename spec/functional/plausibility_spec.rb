@@ -251,7 +251,8 @@ describe 'plausibility' do
       it_is_correct_for 'Gabonese Republic', :samples => '+241 1 627 739'
       it_is_correct_for 'Gambia', :samples => '+220  989 5148'
       it_is_correct_for 'Germany', :samples => [
-        '+49 157 753 6870'
+        '+49 69 155 1',
+        '+49 1577 536 8701'
       ]
       it_is_correct_for 'Georgia', :samples => ['+995 220 123 45',
                                                 '+995 32 123 4567',
@@ -597,6 +598,11 @@ describe 'plausibility' do
         Phony.plausible?('+81 90 1234 1234').should be_truthy
         Phony.plausible?('+81 120 123 123').should be_truthy
         Phony.plausible?('+81 800 123 1234').should be_truthy
+      end
+
+      it 'is correct for Philippine' do
+        Phony.plausible?('+63 976 1234567').should be_truthy # mobile phone with area code 9
+        Phony.plausible?('+63 876 1234567').should be_truthy # mobile phone with area code 8
       end
     end
   end

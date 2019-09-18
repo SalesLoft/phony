@@ -33,13 +33,13 @@ describe 'country descriptions' do
     end
 
     describe 'Argentina' do
-      it_splits '541112345678', ['54', '11', '1234', '5678']
-      it_splits '542911234567', ['54', '291', '123', '4567']
-      it_splits '542965123456', ['54', '2965', '12', '3456']
-      it_splits '5491112345678', ['54', '911', '1234', '5678']
-      it_splits '5492201234567', ['54', '9220', '123', '4567']
-      it_splits '5492221123456', ['54', '92221', '12', '3456']
-      it_splits '548001234567', ['54', '800', '123', '4567']
+      it_splits '541112345678', ['54', '11', '1234', '5678']    # 2-digit area code / landline
+      it_splits '542911234567', ['54', '291', '123', '4567']    # 3-digit area code / landline
+      it_splits '542903123456', ['54', '2903', '12', '3456']    # 4-digit area code / landline
+      it_splits '5491112345678', ['54', '911', '1234', '5678']  # 2-digit area code / international mobile
+      it_splits '5492201234567', ['54', '9220', '123', '4567']  # 3-digit area code / international mobile
+      it_splits '5492221123456', ['54', '92221', '12', '3456']  # 4-digit area code / international mobile
+      it_splits '548001234567', ['54', '800', '123', '4567']    # Non-geographic number
     end
 
     describe 'Austria' do
@@ -291,7 +291,7 @@ describe 'country descriptions' do
       it_splits '49800222340010',  ['49', '800', '222', '340010'] # Service number
 
       it_splits '4915111231234',   ['49', '151', '1123', '1234']  # Mobile number
-      it_splits '4915771231234',   ['49', '157', '7123', '1234']  # Mobile number
+      it_splits '4915771231234',   ['49', '1577', '123', '1234']  # Mobile number
       it_splits '491601234567',    ['49', '160', '1234', '567']   # Mobile number
       it_splits '4916312345678',   ['49', '163', '1234', '5678']  # Mobile number
       it_splits '4915211231234',   ['49', '1521', '123', '1234']  # Mobile number
@@ -401,6 +401,7 @@ describe 'country descriptions' do
       it_splits '35311234567',  ['353', '1', '123', '4567']  # Dublin, 7 digit subscriber #
       it_splits '353539233333', ['353', '53', '923', '3333'] # Wexford, 7 digit subscriber
       it_splits '3532212345',   ['353', '22', '12345']       # Mallow, 5 digit subscriber #
+      it_splits '353441234567', ['353', '44', '123', '4567'] # Mullingar, Castlepollard, Tyrellspass 7 digit subscriber #
       it_splits '35345123456',  ['353', '45', '123456']      # Naas, 6 digit subscriber #
       it_splits '353801234567', ['353', '80', '123', '4567'] # Mobile
       it_splits '353761234567', ['353', '76', '123', '4567'] # VoIP
@@ -409,14 +410,16 @@ describe 'country descriptions' do
     end
 
     describe 'Israel (972)' do
-      it_splits '972100',       ['972', '1', '00']  # Police
-      it_splits '97221231234',  ['972', '2', '123', '1234']  # Jerusalem Area
-      it_splits '97282411234',  ['972', '8', '241', '1234']  # Gaza Strip (Palestine)
-      it_splits '97291231234',  ['972', '9', '123', '1234']  # Sharon Area
-      it_splits '972501231234', ['972', '50', '123', '1234']  # Mobile (Pelephone)
-      it_splits '972591231234', ['972', '59', '123', '1234']  # Mobile Jawwal (Palestine)
-      it_splits '972771231234', ['972', '77', '123', '1234']  # Cable Phone Services
+      it_splits '972100',       ['972', '1', '00']                  # Police
+      it_splits '97221231234',  ['972', '2', '123', '1234']         # Jerusalem Area
+      it_splits '97282411234',  ['972', '8', '241', '1234']         # Gaza Strip (Palestine)
+      it_splits '97291231234',  ['972', '9', '123', '1234']         # Sharon Area
+      it_splits '972501231234', ['972', '50', '123', '1234']        # Mobile (Pelephone)
+      it_splits '972591231234', ['972', '59', '123', '1234']        # Mobile Jawwal (Palestine)
+      it_splits '972771231234', ['972', '77', '123', '1234']        # Cable Phone Services
       it_splits '9721700123123', ['972', '1', '700', '123', '123']  # Cable Phone Services
+      it_splits '972511234567', ['972', '51', '123', '4567']        # Mobile (We4G)
+      it_splits '972791111111', ['972', '79', '111', '1111']        # Landline (Hallo, Cellact, Telzar)
     end
     describe 'Israel (970)' do
       it_splits '97021231234',  ['970', '2', '123', '1234']  # Jerusalem Area
@@ -433,12 +436,20 @@ describe 'country descriptions' do
       it_splits '3934869528123',['39', '348', '695', '2812', '3']  # Mobile (8-digit subscriber no - new)
       it_splits '393357210488', ['39', '335', '721', '0488'] # Mobile
       it_splits '393248644272', ['39', '324', '864', '4272'] # Mobile
-      it_splits '3906123412',   ['39', '06', '1234', '12'] # Roma 6 digit
-      it_splits '39061234123',  ['39', '06', '1234', '123'] # Roma 7 digit
-      it_splits '390612341234', ['39', '06', '1234', '1234'] # Roma 8 digit
+      it_splits '3906223412',   ['39', '06', '2234', '12'] # Roma 6 digit
+      it_splits '39062234123',  ['39', '06', '2234', '123'] # Roma 7 digit
+      it_splits '390622341234', ['39', '06', '2234', '1234'] # Roma 8 digit
       it_splits '3902888388',   ['39', '02', '8883', '88'] # Milano 6 digit
       it_splits '39028883888',  ['39', '02', '8883', '888'] # Milano 7 digit
       it_splits '390288838883', ['39', '02', '8883', '8883'] # Milano 8 digit
+      # https://www.itu.int/dms_pub/itu-t/oth/02/02/T020200006B0001PDFE.pdf
+      # Geographic ndcs followed by a 1 increases maximum length to 11. 
+      it_splits '39061223412',   ['39', '06', '1223', '412'] # Roma 7 digit
+      it_splits '390612234123',  ['39', '06', '1223', '4123'] # Roma 8 digit
+      it_splits '3906122341234', ['39', '06', '1223', '41234'] # Roma 9 digit
+      it_splits '39021888388',   ['39', '02', '1888', '388'] # Milano 7 digit
+      it_splits '390218883888',  ['39', '02', '1888', '3888'] # Milano 8 digit
+      it_splits '3902188838883', ['39', '02', '1888', '38883'] # Milano 9 digit
       it_splits '390141595661', ['39', '0141', '595', '661'] # Asti
       it_splits '3903123391',   ['39', '031', '23391']   # Como
       it_splits '390909709511', ['39', '090', '9709511'] # Barcellona
