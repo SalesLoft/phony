@@ -255,10 +255,11 @@ Phony.define do
   # https://www.numberingplans.com/?page=plans&sub=phonenr&alpha_2_input=PH
   country '63',
     trunk('0') |
-    # 7/10 digits for area code '2'.
+    # 8/10 digits for area code '2'.
+    match(/\A(2)8\d{7}\z/) >> split(8) |
     match(/\A(2)\d{10}\z/) >> split(10) |
-    one_of('2') >> split(7) |
-    # mobile
+    one_of('2') >> split(8) |
+    #  mobile
     match(/\A([89]\d\d)\d{7}\z/) >> split(7) |
     match(/\A(9\d\d)\d+\z/) >> split(6) |
     #
