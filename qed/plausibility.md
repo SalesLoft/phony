@@ -827,7 +827,7 @@ With regexp constraints.
 #### Philippines
 
     plausible? true: [
-      '+63 2 1234567',
+      '+63 2 81234567',
       '+63 2 1234567890',
       '+63 88 1234567',
       ['+63 920 123456', '+63 920 1234567']
@@ -930,7 +930,7 @@ http://www.itu.int/dms_pub/itu-t/oth/02/02/T02020000E90002PDFE.pdf
 
 #### Various Countries
 
-    Phony.assert.plausible?('6327332350')
+    Phony.assert.plausible?('63287332350')
     Phony.assert.plausible?('+4231231212')
     Phony.assert.plausible?('+4755121212')
     Phony.refute.plausible?('+475512121')

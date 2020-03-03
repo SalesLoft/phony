@@ -255,10 +255,11 @@ Phony.define do
   # https://www.numberingplans.com/?page=plans&sub=phonenr&alpha_2_input=PH
   country '63',
     trunk('0') |
-    # 7/10 digits for area code '2'.
+    # 8/10 digits for area code '2'.
+    match(/\A(2)8\d{7}\z/) >> split(8) |
     match(/\A(2)\d{10}\z/) >> split(10) |
-    one_of('2') >> split(7) |
-    # mobile
+    one_of('2') >> split(8) |
+    #  mobile
     match(/\A([89]\d\d)\d{7}\z/) >> split(7) |
     match(/\A(9\d\d)\d+\z/) >> split(6) |
     #
@@ -386,14 +387,19 @@ Phony.define do
   country '233', fixed(2) >> split(3,4)
 
   # Nigeria
-  # Wikipedia says 3 4 split, many local number with no splitting
+  # 3 4 split for mobile and 1 digit NDC, 3 2 or 3 3 otherwise
+  # Many local numbers with no splitting
   #
-  # mobile telephony number allocation taken from: http://www.ncc.gov.ng/index.php?option=com_content&view=article&id=113&Itemid=102
+  # mobile telephony number allocation taken from:
+  # https://www.ncc.gov.ng/technical-regulation/standards/numbering and
+  # https://www.itu.int/oth/T020200009C/en
   country '234',
-    match(/^([7-9]0\d)\d+$/) >> split(3,4) | # Mobile
-    match(/^(81\d)\d+$/)     >> split(3,4) | # Mobile
-    one_of('1', '2', '9')    >> split(3,4) | # Lagos, Ibadan and Abuja
-    fixed(2)                 >> split(3,4)   # 2-digit NDC
+    match(/^([7-9]0\d)\d+$/)            >> split(3,4)    | # Mobile
+    match(/^(81\d)\d+$/)                >> split(3,4)    | # Mobile
+    one_of('1', '2')                    >> split(3,3..4) | # Lagos, Ibadan
+    one_of('9')                         >> split(3,4)    | # Abuja
+    one_of((30..79).map(&:to_s))        >> split(3,2..3) | # 2-digit NDC
+    one_of(%w(82 83 84 85 86 87 88 89)) >> split(3,3)      # 2-digit NDC
 
   country '235', none >> split(4,4) # Chad http://www.wtng.info/wtng-235-td.html
   country '236', none >> split(4,4) # Central African Republic http://www.wtng.info/wtng-236-cf.html
@@ -731,11 +737,12 @@ Phony.define do
   # Monaco
   #
   country '377',
-          one_of('6')  >> split(2,2,2,2) | # mobile
+          one_of('6') >> split(2,2,2,2) | # mobile
           fixed(2) >> split(2,2,2)
 
   # San Marino
   country '378',
+          trunk('', :normalize => false) |
           none >> matched_split(
               /\A\d{6}\z/ => [3,3],
               /\A\d+\z/ => [3,3,4]
